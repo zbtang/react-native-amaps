@@ -13,8 +13,8 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
-import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Nullable;
 
 public class AirMapPolygonManager extends ViewGroupManager<AirMapPolygon> {
@@ -63,10 +63,10 @@ public class AirMapPolygonManager extends ViewGroupManager<AirMapPolygon> {
         view.setStrokeColor(color);
     }
 
-    @ReactProp(name = "geodesic", defaultBoolean = false)
-    public void setGeodesic(AirMapPolygon view, boolean geodesic) {
-        view.setGeodesic(geodesic);
-    }
+//    @ReactProp(name = "geodesic", defaultBoolean = false)
+//    public void setGeodesic(AirMapPolygon view, boolean geodesic) {
+//        view.setGeodesic(geodesic);
+//    }
 
     @ReactProp(name = "zIndex", defaultFloat = 1.0f)
     public void setZIndex(AirMapPolygon view, float zIndex) {
@@ -77,7 +77,7 @@ public class AirMapPolygonManager extends ViewGroupManager<AirMapPolygon> {
     @Nullable
     public Map getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.of(
-            "onPress", MapBuilder.of("registrationName", "onPress")
+                "onPress", MapBuilder.of("registrationName", "onPress")
         );
     }
 }

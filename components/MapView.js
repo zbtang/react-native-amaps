@@ -374,7 +374,8 @@ class MapView extends React.Component {
     super(props);
 
     this.state = {
-      isReady: Platform.OS === 'ios',
+      // isReady: Platform.OS === 'ios',
+      isReady: true,
     };
 
     this._onMapReady = this._onMapReady.bind(this);

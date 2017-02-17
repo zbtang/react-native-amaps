@@ -8,6 +8,12 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -25,12 +31,6 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.react.bridge.ReadableMap;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import javax.annotation.Nullable;
 
@@ -64,9 +64,9 @@ public class AirMapMarker extends AirMapFeature {
     private int zIndex = 0;
     private float opacity = 1.0f;
 
-    private float calloutAnchorX;
-    private float calloutAnchorY;
-    private boolean calloutAnchorIsSet;
+//    private float calloutAnchorX;
+//    private float calloutAnchorY;
+//    private boolean calloutAnchorIsSet;
 
     private boolean hasCustomMarkerView = false;
 
@@ -154,7 +154,7 @@ public class AirMapMarker extends AirMapFeature {
     public void setRotation(float rotation) {
         this.rotation = rotation;
         if (marker != null) {
-            marker.setRotation(rotation);
+            marker.setRotateAngle(rotation);
         }
         update();
     }
@@ -206,15 +206,15 @@ public class AirMapMarker extends AirMapFeature {
         update();
     }
 
-    public void setCalloutAnchor(double x, double y) {
-        calloutAnchorIsSet = true;
-        calloutAnchorX = (float) x;
-        calloutAnchorY = (float) y;
-        if (marker != null) {
-            marker.setInfoWindowAnchor(calloutAnchorX, calloutAnchorY);
-        }
-        update();
-    }
+//    public void setCalloutAnchor(double x, double y) {
+//        calloutAnchorIsSet = true;
+//        calloutAnchorX = (float) x;
+//        calloutAnchorY = (float) y;
+//        if (marker != null) {
+//            marker.setInfoWindowAnchor(calloutAnchorX, calloutAnchorY);
+//        }
+//        update();
+//    }
 
     public void setImage(String uri) {
         if (uri == null) {
@@ -263,12 +263,12 @@ public class AirMapMarker extends AirMapFeature {
     }
 
     @Override
-    public void addToMap(GoogleMap map) {
+    public void addToMap(AMap map) {
         marker = map.addMarker(getMarkerOptions());
     }
 
     @Override
-    public void removeFromMap(GoogleMap map) {
+    public void removeFromMap(AMap map) {
         marker.remove();
         marker = null;
     }
@@ -300,11 +300,12 @@ public class AirMapMarker extends AirMapFeature {
     private MarkerOptions createMarkerOptions() {
         MarkerOptions options = new MarkerOptions().position(position);
         if (anchorIsSet) options.anchor(anchorX, anchorY);
-        if (calloutAnchorIsSet) options.infoWindowAnchor(calloutAnchorX, calloutAnchorY);
+        //TODO: 使用这个api来实现相同的效果：options.setInfoWindowOffset()
+//        if (calloutAnchorIsSet) options.infoWindowAnchor(calloutAnchorX, calloutAnchorY);
         options.title(title);
         options.snippet(snippet);
-        options.rotation(rotation);
-        options.flat(flat);
+        options.rotateAngle(rotation);
+        options.setFlat(flat);
         options.draggable(draggable);
         options.zIndex(zIndex);
         options.alpha(opacity);
@@ -325,11 +326,11 @@ public class AirMapMarker extends AirMapFeature {
             marker.setAnchor(0.5f, 1.0f);
         }
 
-        if (calloutAnchorIsSet) {
-            marker.setInfoWindowAnchor(calloutAnchorX, calloutAnchorY);
-        } else {
-            marker.setInfoWindowAnchor(0.5f, 0);
-        }
+//        if (calloutAnchorIsSet) {
+//            marker.setInfoWindowAnchor(calloutAnchorX, calloutAnchorY);
+//        } else {
+//            marker.setInfoWindowAnchor(0.5f, 0);
+//        }
     }
 
     public void update(int width, int height) {

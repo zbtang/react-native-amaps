@@ -1,7 +1,13 @@
 package com.airbnb.android.react.maps;
 
+import android.os.RemoteException;
 import android.view.View;
 
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
+import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -15,12 +21,6 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
 
 import java.util.Map;
 
@@ -36,22 +36,24 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
     private static final int FIT_TO_COORDINATES = 5;
 
     private final Map<String, Integer> MAP_TYPES = MapBuilder.of(
-            "standard", GoogleMap.MAP_TYPE_NORMAL,
-            "satellite", GoogleMap.MAP_TYPE_SATELLITE,
-            "hybrid", GoogleMap.MAP_TYPE_HYBRID,
-            "terrain", GoogleMap.MAP_TYPE_TERRAIN,
-            "none", GoogleMap.MAP_TYPE_NONE
+//            "hybrid", AMap.MAP_TYPE_HYBRID,
+//            "terrain", AMap.MAP_TYPE_TERRAIN,
+//            "none", AMap.MAP_TYPE_NONE,
+            "standard", AMap.MAP_TYPE_NORMAL,
+            "satellite", AMap.MAP_TYPE_SATELLITE,
+            "navi", AMap.MAP_TYPE_NAVI,
+            "night", AMap.MAP_TYPE_NIGHT
     );
 
     private ReactContext reactContext;
 
     private final ReactApplicationContext appContext;
 
-    protected GoogleMapOptions googleMapOptions;
+    protected AMapOptions googleMapOptions;
 
     public AirMapManager(ReactApplicationContext context) {
         this.appContext = context;
-        this.googleMapOptions = new GoogleMapOptions();
+        this.googleMapOptions = new AMapOptions();
     }
 
     @Override
@@ -62,14 +64,12 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
     @Override
     protected AirMapView createViewInstance(ThemedReactContext context) {
         reactContext = context;
-
         try {
             MapsInitializer.initialize(this.appContext);
-        } catch (RuntimeException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
             emitMapError("Map initialize error", "map_init_error");
         }
-
         return new AirMapView(context, this.appContext.getCurrentActivity(), this, this.googleMapOptions);
     }
 
@@ -93,11 +93,16 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
         int typeId = MAP_TYPES.get(mapType);
         view.map.setMapType(typeId);
     }
-    
-    @ReactProp(name = "customMapStyleString")
-    public void setMapStyle(AirMapView view, @Nullable String customMapStyleString) {
-        view.map.setMapStyle(new MapStyleOptions(customMapStyleString));
-    }
+
+//    @ReactProp(name = "customMapStylePath")
+//    public void setMapStyle(AirMapView view, @Nullable String customMapStyleString) {
+//        view.map.setCustomMapStylePath(customMapStyleString);
+//    }
+
+//    @ReactProp(name = "customMapStyleString")
+//    public void setMapStyle(AirMapView view, @Nullable String customMapStyleString) {
+//        view.map.setMapStyle(new MapStyleOptions(customMapStyleString));
+//    }
 
     @ReactProp(name = "showsUserLocation", defaultBoolean = false)
     public void setShowsUserLocation(AirMapView view, boolean showUserLocation) {
@@ -109,10 +114,10 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
         view.setShowsMyLocationButton(showMyLocationButton);
     }
 
-    @ReactProp(name = "toolbarEnabled", defaultBoolean = true)
-    public void setToolbarEnabled(AirMapView view, boolean toolbarEnabled) {
-        view.setToolbarEnabled(toolbarEnabled);
-    }
+//    @ReactProp(name = "toolbarEnabled", defaultBoolean = true)
+//    public void setToolbarEnabled(AirMapView view, boolean toolbarEnabled) {
+//        view.setToolbarEnabled(toolbarEnabled);
+//    }
 
     // This is a private prop to improve performance of panDrag by disabling it when the callback is not set
     @ReactProp(name = "handlePanDrag", defaultBoolean = false)
@@ -127,12 +132,12 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
 
     @ReactProp(name = "showsBuildings", defaultBoolean = false)
     public void setShowBuildings(AirMapView view, boolean showBuildings) {
-        view.map.setBuildingsEnabled(showBuildings);
+        view.map.showBuildings(showBuildings);
     }
 
     @ReactProp(name = "showsIndoors", defaultBoolean = false)
     public void setShowIndoors(AirMapView view, boolean showIndoors) {
-        view.map.setIndoorEnabled(showIndoors);
+        view.map.showIndoorMap(showIndoors);
     }
 
     @ReactProp(name = "showsCompass", defaultBoolean = false)

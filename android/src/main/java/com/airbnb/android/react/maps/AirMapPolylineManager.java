@@ -13,8 +13,8 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
-import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Nullable;
 
 public class AirMapPolylineManager extends ViewGroupManager<AirMapPolyline> {
@@ -72,7 +72,7 @@ public class AirMapPolylineManager extends ViewGroupManager<AirMapPolyline> {
     @Nullable
     public Map getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.of(
-            "onPress", MapBuilder.of("registrationName", "onPress")
+                "onPress", MapBuilder.of("registrationName", "onPress")
         );
     }
 }

@@ -2,30 +2,31 @@ package com.airbnb.android.react.maps;
 
 import android.content.Context;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.android.gms.maps.model.UrlTileProvider;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.TileOverlay;
+import com.amap.api.maps.model.TileOverlayOptions;
+import com.amap.api.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class AirMapUrlTile extends AirMapFeature {
 
-    class AIRMapUrlTileProvider extends UrlTileProvider
-    {
+    class AIRMapUrlTileProvider extends UrlTileProvider {
         private String urlTemplate;
+
         public AIRMapUrlTileProvider(int width, int height, String urlTemplate) {
             super(width, height);
             this.urlTemplate = urlTemplate;
         }
+
         @Override
         public synchronized URL getTileUrl(int x, int y, int zoom) {
 
             String s = this.urlTemplate
-              .replace("{x}", Integer.toString(x))
-              .replace("{y}", Integer.toString(y))
-              .replace("{z}", Integer.toString(zoom));
+                    .replace("{x}", Integer.toString(x))
+                    .replace("{y}", Integer.toString(y))
+                    .replace("{z}", Integer.toString(zoom));
             URL url = null;
             try {
                 url = new URL(s);
@@ -89,12 +90,12 @@ public class AirMapUrlTile extends AirMapFeature {
     }
 
     @Override
-    public void addToMap(GoogleMap map) {
+    public void addToMap(AMap map) {
         this.tileOverlay = map.addTileOverlay(getTileOverlayOptions());
     }
 
     @Override
-    public void removeFromMap(GoogleMap map) {
+    public void removeFromMap(AMap map) {
         tileOverlay.remove();
     }
 }

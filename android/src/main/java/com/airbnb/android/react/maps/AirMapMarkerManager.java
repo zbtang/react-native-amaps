@@ -3,6 +3,7 @@ package com.airbnb.android.react.maps;
 import android.graphics.Color;
 import android.view.View;
 
+import com.amap.api.maps.model.Marker;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
@@ -10,7 +11,6 @@ import com.facebook.react.uimanager.LayoutShadowNode;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,13 +77,13 @@ public class AirMapMarkerManager extends ViewGroupManager<AirMapMarker> {
         view.setAnchor(x, y);
     }
 
-    @ReactProp(name = "calloutAnchor")
-    public void setCalloutAnchor(AirMapMarker view, ReadableMap map) {
-        // should default to (0.5, 0) (top middle)
-        double x = map != null && map.hasKey("x") ? map.getDouble("x") : 0.5;
-        double y = map != null && map.hasKey("y") ? map.getDouble("y") : 0.0;
-        view.setCalloutAnchor(x, y);
-    }
+//    @ReactProp(name = "calloutAnchor")
+//    public void setCalloutAnchor(AirMapMarker view, ReadableMap map) {
+//        // should default to (0.5, 0) (top middle)
+//        double x = map != null && map.hasKey("x") ? map.getDouble("x") : 0.5;
+//        double y = map != null && map.hasKey("y") ? map.getDouble("y") : 0.0;
+//        view.setCalloutAnchor(x, y);
+//    }
 
     @ReactProp(name = "image")
     public void setImage(AirMapMarker view, @Nullable String source) {
