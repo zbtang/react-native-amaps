@@ -114,9 +114,16 @@ const propTypes = {
    * If `false` compass won't be displayed on the map.
    * Default value is `true`.
    *
-   * @platform ios
    */
   showsCompass: PropTypes.bool,
+
+  /**
+   * If `false` zoomButtom won't be displayed on the map.
+   * Default value is `false`.
+   *
+   * @platform android
+   */
+  showsZoomButton:PropTypes.bool,
 
   /**
    * If `false` the user won't be able to pinch/zoom the map.

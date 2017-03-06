@@ -145,6 +145,16 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
         view.map.getUiSettings().setCompassEnabled(showsCompass);
     }
 
+    @ReactProp(name = "showsScale", defaultBoolean = false)
+    public void setShowsScale(AirMapView view, boolean showsScale) {
+        view.map.getUiSettings().setScaleControlsEnabled(showsScale);
+    }
+
+    @ReactProp(name = "showsZoomButton", defaultBoolean = true)
+    public void setShowsZoomButton(AirMapView view, boolean showsZoomButton) {
+        view.map.getUiSettings().setZoomControlsEnabled(showsZoomButton);
+    }
+
     @ReactProp(name = "scrollEnabled", defaultBoolean = false)
     public void setScrollEnabled(AirMapView view, boolean scrollEnabled) {
         view.map.getUiSettings().setScrollGesturesEnabled(scrollEnabled);
