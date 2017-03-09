@@ -498,7 +498,7 @@ public class AirMapView extends MapView implements AMap.InfoWindowAdapter,
     public void animateToCoordinate(LatLng coordinate, int duration) {
         if (map != null) {
             startMonitoringRegion();
-            map.animateCamera(CameraUpdateFactory.newLatLng(coordinate), duration, null);
+            map.animateCamera(CameraUpdateFactory.changeLatLng(coordinate), duration, null);
         }
     }
 

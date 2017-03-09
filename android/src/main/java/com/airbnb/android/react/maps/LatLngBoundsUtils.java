@@ -5,6 +5,9 @@ import com.amap.api.maps.model.LatLngBounds;
 
 public class LatLngBoundsUtils {
     public static boolean BoundsAreDifferent(LatLngBounds a, LatLngBounds b) {
+        // TODO:暂时性的防御，要看看timer为什么没有结束
+        if (a == null || a.northeast == null || a.southwest == null || b == null || b.northeast == null || b.southwest == null)
+            return false;
         LatLng centerA = getCenter(a);
         double latA = centerA.latitude;
         double lngA = centerA.longitude;
