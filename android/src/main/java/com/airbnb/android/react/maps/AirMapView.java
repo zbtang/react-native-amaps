@@ -250,7 +250,6 @@ public class AirMapView extends MapView implements AMap.InfoWindowAdapter,
                 AirMapView.this.cacheView();
             }
         });
-
         // We need to be sure to disable location-tracking when app enters background, in-case some
         // other module
         // has acquired a wake-lock and is controlling location-updates, otherwise, location-manager
@@ -278,10 +277,18 @@ public class AirMapView extends MapView implements AMap.InfoWindowAdapter,
                     map.setMyLocationEnabled(false);
                 }
                 paused = true;
+                stopMonitoringRegion();
+                synchronized (AirMapView.this) {
+                    AirMapView.this.onPause();
+                }
+
             }
 
             @Override
             public void onHostDestroy() {
+                synchronized (AirMapView.this) {
+                    AirMapView.this.onDestroy();
+                }
             }
         };
 
